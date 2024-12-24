@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ItemList from "./components/ItemList";
+import FloatingButton from "./components/FloatingButton";
+import AddItemModal from "./components/AddItemModal";
+import { getItems, saveItems } from "./utils/storage";
+import "./App.css";
 
 function App() {
+  const [items, setItems] = useState(getItems());
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleAddItem = (item) => {
+    const updatedItems = [...items, item];
+    setItems(updatedItems);
+    saveItems(updatedItems);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ItemList items={items} />
+      <FloatingButton onClick={() => setModalOpen(true)} />
+      <AddItemModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onAddItem={handleAddItem}
+      />
     </div>
   );
 }
