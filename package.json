@@ -2,7 +2,7 @@
   "name": "ratetracker",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/satyasaiatmakuri/Rate-Tracker.git",
+  "homepage": "https://satyasaiatmakuri.github.io/Rate-Tracker",
   "dependencies": {
     "cra-template": "1.2.0",
     "gh-pages": "^6.2.0",
