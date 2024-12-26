@@ -30,6 +30,11 @@ const AddItemModal = ({ isOpen, onClose, onAddItem, onUpdateItem, item }) => {
       } else {
         onAddItem(newItem); // Else, create a new item
       }
+
+      setName("");
+      setWeight("");
+      setPrice("");
+
       onClose();
     }
   };
