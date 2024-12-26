@@ -16,25 +16,27 @@ const AddItemModal = ({ isOpen, onClose, onAddItem, onUpdateItem, item }) => {
   if (!isOpen) return null;
 
   const handleSave = () => {
-    const newItem = {
-      id: item ? item.id : Date.now(), // If editing, keep the same ID, else generate a new one
-      name,
-      weight,
-      price,
-      date: new Date().toLocaleDateString(),
-    };
+    if (name && weight && price) {
+      const newItem = {
+        id: item ? item.id : Date.now(), // If editing, keep the same ID, else generate a new one
+        name,
+        weight,
+        price,
+        date: new Date().toLocaleDateString(),
+      };
 
-    if (item) {
-      onUpdateItem(newItem); // If item exists, update it
-    } else {
-      onAddItem(newItem); // Else, create a new item
+      if (item) {
+        onUpdateItem(newItem); // If item exists, update it
+      } else {
+        onAddItem(newItem); // Else, create a new item
+      }
+      onClose();
     }
-    onClose();
   };
 
   return (
     <>
-    <div className="modal-backdrop" onClick={onClose}></div>
+      <div className="modal-backdrop" onClick={onClose}></div>
       <div className="modal-container">
         <h2>{item ? "Edit Item" : "Add New Item"}</h2>
         <label>
