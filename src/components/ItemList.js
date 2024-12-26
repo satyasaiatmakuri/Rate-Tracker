@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ItemList.css";
 
-const ItemList = ({ items }) => {
+const ItemList = ({ items, onEditItem }) => {
   const [search, setSearch] = useState("");
   const [filteredItems, setFilteredItems] = useState(items);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +39,7 @@ const ItemList = ({ items }) => {
               <th>Date Updated</th>
               <th>Price</th>
               <th>Weight</th>
+              <th>Actions</th> {/* Add Actions column */}
             </tr>
           </thead>
           <tbody>
@@ -48,6 +49,10 @@ const ItemList = ({ items }) => {
                 <td>{item.date}</td>
                 <td>{item.price}</td>
                 <td>{item.weight}</td>
+                <td>
+                  <button onClick={() => onEditItem(item)}>Edit</button>{" "}
+                  {/* Edit button */}
+                </td>
               </tr>
             ))}
           </tbody>

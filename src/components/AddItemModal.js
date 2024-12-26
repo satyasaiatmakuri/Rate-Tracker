@@ -1,30 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddItemModal.css";
-
-const AddItemModal = ({ isOpen, onClose, onAddItem }) => {
+const AddItemModal = ({ isOpen, onClose, onAddItem, onUpdateItem, item }) => {
   const [name, setName] = useState("");
   const [weight, setWeight] = useState("");
   const [price, setPrice] = useState("");
+
+  useEffect(() => {
+    if (item) {
+      setName(item.name);
+      setWeight(item.weight);
+      setPrice(item.price);
+    }
+  }, [item]);
 
   if (!isOpen) return null;
 
   const handleSave = () => {
     const newItem = {
-      id: Date.now(),
+      id: item ? item.id : Date.now(), // If editing, keep the same ID, else generate a new one
       name,
       weight,
       price,
       date: new Date().toLocaleDateString(),
     };
-    onAddItem(newItem);
+
+    if (item) {
+      onUpdateItem(newItem); // If item exists, update it
+    } else {
+      onAddItem(newItem); // Else, create a new item
+    }
     onClose();
   };
 
   return (
     <>
-      <div className="modal-backdrop" onClick={onClose}></div>
+    <div className="modal-backdrop" onClick={onClose}></div>
       <div className="modal-container">
-        <h2>Add New Item</h2>
+        <h2>{item ? "Edit Item" : "Add New Item"}</h2>
         <label>
           Item Name:
           <input
@@ -57,7 +69,7 @@ const AddItemModal = ({ isOpen, onClose, onAddItem }) => {
             Cancel
           </button>
           <button className="save-btn" onClick={handleSave}>
-            Save
+            {item ? "Update" : "Save"}
           </button>
         </div>
       </div>

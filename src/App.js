@@ -8,6 +8,7 @@ import "./App.css";
 function App() {
   const [items, setItems] = useState(getItems());
   const [isModalOpen, setModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null); // Manage the item being edited
 
   const handleAddItem = (item) => {
     const updatedItems = [...items, item];
@@ -15,14 +16,29 @@ function App() {
     saveItems(updatedItems);
   };
 
+  const handleUpdateItem = (updatedItem) => {
+    const updatedItems = items.map((item) =>
+      item.id === updatedItem.id ? updatedItem : item
+    );
+    setItems(updatedItems);
+    saveItems(updatedItems);
+  };
+
+  const openEditModal = (item) => {
+    setEditingItem(item); // Set the item to be edited
+    setModalOpen(true);
+  };
+
   return (
     <div className="App">
-      <ItemList items={items} />
+      <ItemList items={items} onEditItem={openEditModal} />
       <FloatingButton onClick={() => setModalOpen(true)} />
       <AddItemModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         onAddItem={handleAddItem}
+        onUpdateItem={handleUpdateItem}
+        item={editingItem} // Pass the item being edited
       />
     </div>
   );
